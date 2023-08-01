@@ -88,37 +88,59 @@ function verifyConsecutiveSpecialChar(password) {
     return verifyResult
 }
 
+export const verifyWithNoBlanckSpaces = (pass) => {
+    let verifyResult = true
+
+    if (pass.includes(" ")) {
+        verifyResult = false
+    }
+
+    return verifyResult
+}
+
+export const verifyWithNoZeroValue = (pass) => {
+    let verifyResult = true
+
+    if (pass.includes("0")) {
+        verifyResult = false
+    }
+
+    return verifyResult
+}
+
 export default function validatePassword(password) {
     let errorMessages = []
 
-    // Verificar que la contraseña tenga al menos 16 caracteres
     if (password.length < 16) {
         errorMessages.push('Password length must be at least 16 characters')
     }
 
-    // Verificar que haya al menos una letra minúscula y una letra mayúscula
     if (!verifyUpperAndLowerCaseInPassword(password)) {
         errorMessages.push('Must have at least one upper and lower cases characters')
     }
 
-    // Verificar que no haya 2 letras iguales consecutivas
     if (!verifyConsecutiveTwoCharEquals(password)) {
         errorMessages.push('Chars can not be consecutives')
     }
 
-    // Contar la cantidad de números y verificar que haya al menos 4
     if (!verifyQtyOfNumbers(password)) {
         errorMessages.push('Must have at least 4 numbers')
     }
 
-    // Verificar que no haya 2 números iguales consecutivos
     if (!verifyTwoConsecutivesNumbers(password)) {
         errorMessages.push('Numbers in password can not be equals and consecutive')
     }
 
-    // Verificar que haya al menos 2 caracteres especiales y que no estén juntos
     if (!verifyConsecutiveSpecialChar(password)) {
         errorMessages.push('Special Chars in password can not be equals and consecutive')
+    }
+
+    if (!verifyWithNoBlanckSpaces(password)) {
+        errorMessages.push('Password can not have blank spaces')
+    }
+
+    if(!verifyWithNoZeroValue(password)) {
+        errorMessages.push('Password can not have 0')
     }
 
     return errorMessages
